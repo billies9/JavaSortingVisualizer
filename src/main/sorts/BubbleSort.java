@@ -7,7 +7,7 @@ public class BubbleSort implements Runnable {
 	// Initialize sorting array
 	private Integer[] toSort;
 	// Initialize frame to view sorting method
-//	private VisualizerFrame frame;	
+	// private VisualizerFrame frame;	
 	
 	public BubbleSort(Integer[] toSort) {
 		// Assign to-be-sorted array to scope of class
