@@ -22,13 +22,21 @@ public class MergeSort implements Runnable {
 		
 		mid = (first + last) / 2;
 		
+		// Begin recursions to split arrays
 		sort(x, first, mid);
 		sort(x, mid+1, last);
 		
+		// -----------------------------------------------
+		// Begin iterative process of merging split arrays
 		left = first;
 		right = mid+1;
 		// Skip merge sorting, is possible
 		if (x[mid] >= x[right])
 			return;
+		
+		// Bitwise AND operator - first condition must be satisfied to reach second
+		while (left <= mid && right <= last) {
+			
+		}
 	}
 }
