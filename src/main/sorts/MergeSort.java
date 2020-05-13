@@ -1,6 +1,7 @@
 package main.sorts;
 
 import main.*;
+import java.util.Arrays;
 
 public class MergeSort implements Runnable {
 	
@@ -18,10 +19,12 @@ public class MergeSort implements Runnable {
 		int mid, right, left;
 		int temp;
 		
+		// Check to see if array size = 1
 		if (first >= last) return;
 		
+		// Find midpoint of array
 		mid = (first + last) / 2;
-		
+
 		// Begin recursions to split arrays
 		sort(x, first, mid);
 		sort(x, mid+1, last);
@@ -30,13 +33,32 @@ public class MergeSort implements Runnable {
 		// Begin iterative process of merging split arrays
 		left = first;
 		right = mid+1;
-		// Skip merge sorting, is possible
-		if (x[mid] >= x[right])
+		// Skip merge sorting, if possible
+		if (x[mid] <= x[right])
 			return;
 		
 		// Bitwise AND operator - first condition must be satisfied to reach second
 		while (left <= mid && right <= last) {
-			
+			// Advance - order is correct
+			if (x[left] <= x[right]) {
+				left++;
+			}
+			/*
+			 * If right array element greater than left array element, replace left with right.
+			 * Also, move every element left 1 by iterating backwards (j--)
+			 */
+			else {
+				temp = x[right];
+				
+				for (int j = right - left; j > 0; j--) {
+					x[left + j] = x[left + j - 1];
+				}
+				x[left] = temp;
+				
+				left++;
+				right++;
+				mid++;
+			}
 		}
 	}
 }

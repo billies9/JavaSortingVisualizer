@@ -23,7 +23,7 @@ public class VisualizeSorting {
 		
 		if (thread == null && !isSorting) {
 			isSorting = true;
-			toSort = new Integer[] {5, 4, 3, 2, 1};
+			toSort = new Integer[] {3, 4, 2, 1};
 			
 			switch(type) {
 			case "Bubble":
