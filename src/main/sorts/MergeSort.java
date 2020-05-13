@@ -55,6 +55,7 @@ public class MergeSort implements Runnable {
 				}
 				x[left] = temp;
 				
+				// Move counters to reflect new positions
 				left++;
 				right++;
 				mid++;
