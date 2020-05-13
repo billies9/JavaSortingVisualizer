@@ -1,7 +1,6 @@
 package main.sorts;
 
 import main.VisualizeSorting;
-import java.util.Arrays;
 
 public class InsertionSort implements Runnable {
 	/*
