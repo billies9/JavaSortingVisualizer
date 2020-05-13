@@ -1,7 +1,6 @@
 package main.sorts;
 
 import main.*;
-import java.util.Arrays;
 
 public class MergeSort implements Runnable {
 	
