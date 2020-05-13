@@ -35,6 +35,9 @@ public class VisualizeSorting {
 			case "Insertion":
 				thread = new Thread(new InsertionSort(toSort));
 				break;
+			default:
+				isSorting = false;
+				break;
 			
 			}
 			thread.start();
