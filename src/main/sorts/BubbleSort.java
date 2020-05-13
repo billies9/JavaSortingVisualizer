@@ -23,7 +23,7 @@ public class BubbleSort implements Runnable {
 		VisualizeSorting.isSorting = false;	
 	}
 	
-	public void sort() {
+	private void sort() {
 		// Initialize temp array element
 		int temp = 0;
 		// Initialize boolean flag
