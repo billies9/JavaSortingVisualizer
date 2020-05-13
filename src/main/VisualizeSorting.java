@@ -32,8 +32,9 @@ public class VisualizeSorting {
 			case "Merge":
 				thread = new Thread(new MergeSort());
 				break;
-	//		case "Insertion":
-	//			break
+			case "Insertion":
+				thread = new Thread(new InsertionSort(toSort));
+				break;
 			
 			}
 			thread.start();
