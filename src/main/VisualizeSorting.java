@@ -15,7 +15,16 @@ public class VisualizeSorting {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		VisualizerFrame frame = new VisualizerFrame();
+		resetArray();
 
+	}
+	
+	public static void resetArray() {
+		// Check to see if sorting
+		if (isSorting) return;
+		
+		// 
 	}
 	
 	public static void startSort(String type) {
