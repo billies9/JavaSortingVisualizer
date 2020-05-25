@@ -3,8 +3,8 @@ package main;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
+import javax.swing.event.*;
+
 
 
 public class VisualizerFrame {
@@ -25,12 +25,13 @@ class SortingFrame extends JFrame {
 	private final static int DEFAULT_WIDTH = 800;
 	private final static int DEFAULT_HEIGHT = 600;
 	
-	private final int DEFAULT_SIZE = 50;
-	private final int MIN_SIZE = 5;
-	private final int MAX_SIZE = 200;
+	private final int DEFAULT_ARR_SIZE = 50;
+	private final int MIN_ARR_SIZE = 5;
+	private final int MAX_ARR_SIZE = 200;
 	private static final int NUM_SORT_TYPES = 3;
 	
 	private JSlider slider;
+	private JTextField arrayField;
 
 	public SortingFrame() {
 		
@@ -54,55 +55,74 @@ class SortingFrame extends JFrame {
 		outerPane.setBackground(Color.red);
 		getContentPane().add(outerPane);
 		
+		// Configuration panel - Holds sort types and array size
 		JPanel configPanel = new JPanel();
 		GridBagLayout gbl_config = new GridBagLayout();
-		gbl_config.columnWeights = new double[] {Double.MIN_VALUE};
-		gbl_config.rowHeights = new int[] {40, 40, 20};
-		gbl_config.rowWeights = new double[] {1.0, 1.0, Double.MIN_VALUE};
+		gbl_config.rowHeights = new int[] {2, 1};
+		gbl_config.rowWeights = new double[] {2.0, 1.0};
 		configPanel.setLayout(gbl_config);
 		configPanel.setBackground(Color.green);
 		
-		JPanel innerConfigPanel = new JPanel(new GridLayout(NUM_SORT_TYPES, 1));
-		GridBagConstraints gbc_innerConfig = new GridBagConstraints();
-		gbc_innerConfig.fill = GridBagConstraints.VERTICAL;	
+		// Sort panel - Define sort type buttons
+		JPanel sortPanel = new JPanel(new GridLayout(NUM_SORT_TYPES, 1));
+		GridBagConstraints gbc_sort = new GridBagConstraints();
+		gbc_sort.fill = GridBagConstraints.VERTICAL;	
 		
-		addButton("Bubble", innerConfigPanel, sortTypeListener);
-		addButton("Merge", innerConfigPanel, sortTypeListener);
-		addButton("Insertion", innerConfigPanel, sortTypeListener);
-		configPanel.add(innerConfigPanel, gbc_innerConfig);
+		addButton("Bubble", sortPanel, sortTypeListener);
+		addButton("Merge", sortPanel, sortTypeListener);
+		addButton("Insertion", sortPanel, sortTypeListener);
+		configPanel.add(sortPanel, gbc_sort);
+		
+		JPanel sizePanel = new JPanel();
+		GridBagConstraints gbc_size = new GridBagConstraints();
+		gbc_size.gridy = 1;
+		gbc_size.fill = GridBagConstraints.HORIZONTAL;
+
+		arrayField = new JTextField(String.valueOf(DEFAULT_ARR_SIZE));
+		sizePanel.add(arrayField);
+		configPanel.add(sizePanel, gbc_size);
 		
 		GridBagConstraints gbc_config = new GridBagConstraints();
 		gbc_config.fill = GridBagConstraints.BOTH;
-		gbc_config.gridy = 0;
-		gbc_config.gridx = 0;
-		gbc_config.gridheight = 3; 
+		gbc_config.gridheight = 2; 
 		outerPane.add(configPanel, gbc_config);
 		
+		// Array panel - Holds sorting graph
 		JPanel arrayPanel = new JPanel();
 		arrayPanel.setBackground(Color.yellow);
 		
 		GridBagConstraints gbcArray = new GridBagConstraints();
 		gbcArray.fill = GridBagConstraints.BOTH;
 		gbcArray.gridx = 1;
-		gbcArray.gridy = 0;
 		gbcArray.gridheight = 2;
 		outerPane.add(arrayPanel, gbcArray);
 		
+		// Slider panel - Defines array size to sort; Value displayed in Configuration panel
 		JPanel sliderPanel = new JPanel(new BorderLayout());
-		sliderPanel.add(new JSlider(MIN_SIZE, MAX_SIZE, DEFAULT_SIZE));
-		sliderPanel.setBackground(Color.blue);
+		slider = new JSlider(MIN_ARR_SIZE, MAX_ARR_SIZE, DEFAULT_ARR_SIZE);
+		slider.addChangeListener(new ChangeListener() {
+		      public void stateChanged(ChangeEvent event) {
+		    	  JSlider source = (JSlider) event.getSource();
+		    	  if (source.getValueIsAdjusting()) {
+		    		  arrayField.setText(String.valueOf(source.getValue()));
+		    	  }
+		    	  int size = (int) Integer.parseInt(arrayField.getText());
+		    	  
+		    	  
+		    	  
+		      	}
+		    });
+		sliderPanel.add(slider);
 		
 		GridBagConstraints gbcSlider = new GridBagConstraints();
 		gbcSlider.fill = GridBagConstraints.BOTH;
 		gbcSlider.gridx = 1;
 		gbcSlider.gridy = 2; 
-		gbcSlider.gridheight = 1;
 		outerPane.add(sliderPanel, gbcSlider);
-		
 
 	}
 	
-	// Component methods - Override for different components
+	// Button creation method
 	private void addButton (String label,
 							JPanel panel,
 							ActionListener listener) {
