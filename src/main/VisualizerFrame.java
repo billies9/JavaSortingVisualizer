@@ -167,6 +167,7 @@ class SortingFrame extends JFrame {
 		}
 	}
 	
+	// Quit method listener
 	private class quitApplication implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			System.exit(0);
