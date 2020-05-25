@@ -76,6 +76,7 @@ class SortingFrame extends JFrame {
 		addButton("Insertion", sortPanel, sortTypeListener);
 		configPanel.add(sortPanel, gbc_sort);
 		
+		// Size panel - Define size of sorting array
 		JPanel sizePanel = new JPanel();
 		GridBagConstraints gbc_size = new GridBagConstraints();
 		gbc_size.gridy = 1;
@@ -118,6 +119,7 @@ class SortingFrame extends JFrame {
 		      	}
 		    });
 		sliderPanel.add(slider);
+		// Add listener for change in field/slider to occur
 		Document docField = textField.getDocument();
 		docField.addDocumentListener(new TextListener(slider));
 		
