@@ -3,6 +3,7 @@ package main;
 import main.TextListener;
 import java.awt.*;
 import java.awt.Insets;
+import java.awt.Font;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -78,17 +79,24 @@ class SortingFrame extends JFrame {
 		configPanel.add(sortPanel, gbc_sort);
 		
 		// Size panel - Define size of sorting array
-		JPanel sizePanel = new JPanel();
+		JPanel sizePanel = new JPanel(new GridLayout(2, 1));
 		GridBagConstraints gbc_size = new GridBagConstraints();
 		gbc_size.gridy = 1;
-
+		gbc_size.fill = GridBagConstraints.HORIZONTAL;
+		gbc_size.weightx = 1.0;
+		
+		JLabel sizeLabel = new JLabel("# of Arrays:", SwingConstants.CENTER);
+		sizePanel.add(sizeLabel);
+		
 		textField = new JTextField(String.valueOf(DEFAULT_ARR_SIZE));
-		textField.setColumns(7);
-		textField.setHorizontalAlignment(JTextField.CENTER);		
+		textField.setColumns(4);
+		textField.setHorizontalAlignment(JTextField.CENTER);	
+		textField.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
 		
 		sizePanel.add(textField);
 		configPanel.add(sizePanel, gbc_size);
 		
+		// Add Configuration panel to outer-most panel
 		GridBagConstraints gbc_config = new GridBagConstraints();
 		gbc_config.fill = GridBagConstraints.BOTH;
 		gbc_config.gridheight = 2; 
