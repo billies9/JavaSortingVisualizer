@@ -2,6 +2,7 @@ package main;
 
 import main.TextListener;
 import java.awt.*;
+import java.awt.Insets;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -95,12 +96,14 @@ class SortingFrame extends JFrame {
 		
 		// Array panel - Holds sorting graph
 		JPanel arrayPanel = new JPanel();
+		arrayPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		arrayPanel.setBackground(Color.yellow);
 		
 		GridBagConstraints gbcArray = new GridBagConstraints();
 		gbcArray.fill = GridBagConstraints.BOTH;
 		gbcArray.gridx = 1;
 		gbcArray.gridheight = 2;
+		gbcArray.insets = new Insets(10, 10, 10, 10);
 		outerPane.add(arrayPanel, gbcArray);
 		
 		// Slider panel - Defines array size to sort; Value displayed in Configuration panel
@@ -128,7 +131,6 @@ class SortingFrame extends JFrame {
 		gbcSlider.gridx = 1;
 		gbcSlider.gridy = 2; 
 		outerPane.add(sliderPanel, gbcSlider);
-
 	}
 	
 	// Button creation method
@@ -140,7 +142,6 @@ class SortingFrame extends JFrame {
 		button.addActionListener(listener);
 		panel.add(button);
 	}
-	
 	
 	// Sorting method listener
 	private class sortSelection implements ActionListener {
