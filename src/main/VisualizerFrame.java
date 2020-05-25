@@ -1,11 +1,14 @@
 package main;
 
-import main.TextListener;
+//import main.TextListener;
+import java.util.ArrayList;
 import java.awt.*;
 import java.awt.Insets;
 import java.awt.Font;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 import javax.swing.event.*;
 import javax.swing.text.Document;
 
@@ -35,7 +38,7 @@ class SortingFrame extends JFrame {
 	private JSlider slider;
 	private JTextField textField;
 
-	public SortingFrame() {
+	public SortingFrame() {	
 		
 		//	Set app size/resize-ablility
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -62,14 +65,14 @@ class SortingFrame extends JFrame {
 		JPanel configPanel = new JPanel();
 		GridBagLayout gbl_config = new GridBagLayout();
 		gbl_config.rowHeights = new int[] {2, 1};
-		gbl_config.rowWeights = new double[] {2.0, 1.0};
+		gbl_config.rowWeights = new double[] {1.5, 0.5};
 		configPanel.setLayout(gbl_config);
-		configPanel.setBackground(Color.green);
+//		configPanel.setBackground(Color.green);
 		
 		// Sort panel - Define sort type buttons
 		JPanel sortPanel = new JPanel(new GridLayout(NUM_SORT_TYPES, 1));
 		GridBagConstraints gbc_sort = new GridBagConstraints();
-		gbc_sort.fill = GridBagConstraints.VERTICAL;	
+		gbc_sort.fill = GridBagConstraints.BOTH;	
 		
 		addButton("Bubble", sortPanel, sortTypeListener);
 		addButton("Merge", sortPanel, sortTypeListener);
@@ -77,21 +80,31 @@ class SortingFrame extends JFrame {
 		configPanel.add(sortPanel, gbc_sort);
 		
 		// Size panel - Define size of sorting array
-		JPanel sizePanel = new JPanel(new GridLayout(2, 1));
+		JPanel sizePanel = new JPanel(new GridLayout(6, 1));
 		GridBagConstraints gbc_size = new GridBagConstraints();
 		gbc_size.gridy = 1;
 		gbc_size.fill = GridBagConstraints.HORIZONTAL;
 		gbc_size.weightx = 1.0;
 		
-		JLabel sizeLabel = new JLabel("# of Arrays:", SwingConstants.CENTER);
+		JLabel sizeLabel = new JLabel("# of Arrays:", SwingConstants.LEFT);
 		sizePanel.add(sizeLabel);
 		
 		textField = new JTextField(String.valueOf(DEFAULT_ARR_SIZE));
-		textField.setColumns(4);
 		textField.setHorizontalAlignment(JTextField.CENTER);	
 		textField.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
-		
 		sizePanel.add(textField);
+		
+		JLabel colorLabel = new JLabel("Choose array color:", SwingConstants.LEFT);
+		sizePanel.add(colorLabel);
+		
+		ButtonGroup colorGroup = new ButtonGroup();
+		String[] colors = {"Red", "Blue", "Black"};
+		for (int i = 0; i < colors.length; i++) {
+			JRadioButton btn = new JRadioButton(colors[i]);
+			colorGroup.add(btn);
+			sizePanel.add(btn);
+		}
+		
 		configPanel.add(sizePanel, gbc_size);
 		
 		// Add Configuration panel to outer-most panel
