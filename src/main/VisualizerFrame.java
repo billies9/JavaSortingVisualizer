@@ -105,12 +105,12 @@ class SortingFrame extends JFrame {
 		arrayPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		arrayPanel.setBackground(Color.yellow);
 		
-		GridBagConstraints gbcArray = new GridBagConstraints();
-		gbcArray.fill = GridBagConstraints.BOTH;
-		gbcArray.gridx = 1;
-		gbcArray.gridheight = 2;
-		gbcArray.insets = new Insets(10, 10, 10, 10);
-		outerPane.add(arrayPanel, gbcArray);
+		GridBagConstraints gbc_array = new GridBagConstraints();
+		gbc_array.fill = GridBagConstraints.BOTH;
+		gbc_array.gridx = 1;
+		gbc_array.gridheight = 2;
+		gbc_array.insets = new Insets(10, 10, 10, 10);
+		outerPane.add(arrayPanel, gbc_array);
 		
 		// Slider panel - Defines array size to sort; Value displayed in Configuration panel
 		JPanel sliderPanel = new JPanel(new BorderLayout());
