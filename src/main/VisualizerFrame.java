@@ -1,9 +1,14 @@
 package main;
 
+import main.TextListener;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.text.Document;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
 
 
 
@@ -16,9 +21,7 @@ public class VisualizerFrame {
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setVisible(true);
 		});
-
 	}
-
 }
 
 class SortingFrame extends JFrame {
@@ -26,12 +29,12 @@ class SortingFrame extends JFrame {
 	private final static int DEFAULT_HEIGHT = 600;
 	
 	private final int DEFAULT_ARR_SIZE = 50;
-	private final int MIN_ARR_SIZE = 5;
+	private final int MIN_ARR_SIZE = 0;
 	private final int MAX_ARR_SIZE = 200;
 	private static final int NUM_SORT_TYPES = 3;
 	
 	private JSlider slider;
-	private JTextField arrayField;
+	private JTextField textField;
 
 	public SortingFrame() {
 		
@@ -76,10 +79,12 @@ class SortingFrame extends JFrame {
 		JPanel sizePanel = new JPanel();
 		GridBagConstraints gbc_size = new GridBagConstraints();
 		gbc_size.gridy = 1;
-		gbc_size.fill = GridBagConstraints.HORIZONTAL;
 
-		arrayField = new JTextField(String.valueOf(DEFAULT_ARR_SIZE));
-		sizePanel.add(arrayField);
+		textField = new JTextField(String.valueOf(DEFAULT_ARR_SIZE));
+		textField.setColumns(7);
+		textField.setHorizontalAlignment(JTextField.CENTER);		
+		
+		sizePanel.add(textField);
 		configPanel.add(sizePanel, gbc_size);
 		
 		GridBagConstraints gbc_config = new GridBagConstraints();
@@ -100,19 +105,21 @@ class SortingFrame extends JFrame {
 		// Slider panel - Defines array size to sort; Value displayed in Configuration panel
 		JPanel sliderPanel = new JPanel(new BorderLayout());
 		slider = new JSlider(MIN_ARR_SIZE, MAX_ARR_SIZE, DEFAULT_ARR_SIZE);
+		slider.setPaintTicks(true);
+		slider.setPaintLabels(true);
+		slider.setMajorTickSpacing(50);
+		slider.setMinorTickSpacing(10);
 		slider.addChangeListener(new ChangeListener() {
 		      public void stateChanged(ChangeEvent event) {
 		    	  JSlider source = (JSlider) event.getSource();
 		    	  if (source.getValueIsAdjusting()) {
-		    		  arrayField.setText(String.valueOf(source.getValue()));
+		    		  textField.setText(String.valueOf(source.getValue()));
 		    	  }
-		    	  int size = (int) Integer.parseInt(arrayField.getText());
-		    	  
-		    	  
-		    	  
 		      	}
 		    });
 		sliderPanel.add(slider);
+		Document docField = textField.getDocument();
+		docField.addDocumentListener(new TextListener(slider));
 		
 		GridBagConstraints gbcSlider = new GridBagConstraints();
 		gbcSlider.fill = GridBagConstraints.BOTH;
@@ -139,5 +146,4 @@ class SortingFrame extends JFrame {
 			VisualizeSorting.startSort(event.getActionCommand());
 		}
 	}
-	
 }
