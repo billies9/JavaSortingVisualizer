@@ -1,7 +1,5 @@
 package main;
 
-//import main.TextListener;
-import java.util.ArrayList;
 import java.awt.*;
 import java.awt.Insets;
 import java.awt.Font;
@@ -11,6 +9,7 @@ import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.event.*;
 import javax.swing.text.Document;
+import javax.swing.border.EmptyBorder;
 
 
 
@@ -58,7 +57,6 @@ class SortingFrame extends JFrame {
 		gbl_outer.rowHeights = new int[] {40, 40, 20};
         gbl_outer.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
 		outerPane.setLayout(gbl_outer);
-		outerPane.setBackground(Color.red);
 		getContentPane().add(outerPane);
 		
 		// Configuration panel - Holds sort types and array size
@@ -67,7 +65,6 @@ class SortingFrame extends JFrame {
 		gbl_config.rowHeights = new int[] {2, 1};
 		gbl_config.rowWeights = new double[] {1.5, 0.5};
 		configPanel.setLayout(gbl_config);
-//		configPanel.setBackground(Color.green);
 		
 		// Sort panel - Define sort type buttons
 		JPanel sortPanel = new JPanel(new GridLayout(NUM_SORT_TYPES, 1));
@@ -87,6 +84,7 @@ class SortingFrame extends JFrame {
 		gbc_size.weightx = 1.0;
 		
 		JLabel sizeLabel = new JLabel("# of Arrays:", SwingConstants.LEFT);
+		sizeLabel.setBorder(new EmptyBorder(0, 5, 0, 0));
 		sizePanel.add(sizeLabel);
 		
 		textField = new JTextField(String.valueOf(DEFAULT_ARR_SIZE));
@@ -95,6 +93,7 @@ class SortingFrame extends JFrame {
 		sizePanel.add(textField);
 		
 		JLabel colorLabel = new JLabel("Choose array color:", SwingConstants.LEFT);
+		colorLabel.setBorder(new EmptyBorder(0, 5, 0, 5));
 		sizePanel.add(colorLabel);
 		
 		ButtonGroup colorGroup = new ButtonGroup();
@@ -116,7 +115,6 @@ class SortingFrame extends JFrame {
 		// Array panel - Holds sorting graph
 		JPanel arrayPanel = new JPanel();
 		arrayPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-		arrayPanel.setBackground(Color.yellow);
 		
 		GridBagConstraints gbc_array = new GridBagConstraints();
 		gbc_array.fill = GridBagConstraints.BOTH;
