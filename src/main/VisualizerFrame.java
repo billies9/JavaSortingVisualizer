@@ -8,9 +8,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.text.Document;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.BadLocationException;
 
 
 
@@ -48,6 +45,7 @@ class SortingFrame extends JFrame {
 		
 		// Define ActionListeners
 		ActionListener sortTypeListener = new sortSelection();
+		ActionListener quitListener = new quitApplication();
 
 		// Create Panels
 		JPanel outerPane = new JPanel();
@@ -139,6 +137,17 @@ class SortingFrame extends JFrame {
 		gbcSlider.gridx = 1;
 		gbcSlider.gridy = 2; 
 		outerPane.add(sliderPanel, gbcSlider);
+		
+		// Quit panel
+		JPanel quitPanel = new JPanel(new GridLayout());
+		
+		addButton("Quit", quitPanel, quitListener);
+		GridBagConstraints gbc_quit = new GridBagConstraints();
+		gbc_quit.fill = GridBagConstraints.BOTH;
+		gbc_quit.gridx = 0;
+		gbc_quit.gridy = 2;
+		
+		outerPane.add(quitPanel, gbc_quit);
 	}
 	
 	// Button creation method
@@ -155,6 +164,12 @@ class SortingFrame extends JFrame {
 	private class sortSelection implements ActionListener {
 		public void actionPerformed(ActionEvent event) {
 			VisualizeSorting.startSort(event.getActionCommand());
+		}
+	}
+	
+	private class quitApplication implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
+			System.exit(0);
 		}
 	}
 }
