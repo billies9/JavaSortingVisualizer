@@ -123,6 +123,9 @@ class SortingFrame extends JFrame {
 		gbc_array.gridx = 1;
 		gbc_array.gridheight = 2;
 		gbc_array.insets = new Insets(10, 10, 10, 10);
+		
+		GraphView g = new GraphView();
+		arrayPanel.add(g);
 		outerPane.add(arrayPanel, gbc_array);
 		
 		// Slider panel - Defines array size to sort; Value displayed in Configuration panel
