@@ -81,19 +81,21 @@ class SortingFrame extends JFrame {
 		GridBagConstraints gbc_size = new GridBagConstraints();
 		gbc_size.gridy = 1;
 		gbc_size.fill = GridBagConstraints.HORIZONTAL;
+		gbc_size.insets = new Insets(0, 5, 0, 5);
 		gbc_size.weightx = 1.0;
 		
 		JLabel sizeLabel = new JLabel("# of Arrays:", SwingConstants.LEFT);
-		sizeLabel.setBorder(new EmptyBorder(0, 5, 0, 0));
 		sizePanel.add(sizeLabel);
 		
 		textField = new JTextField(String.valueOf(DEFAULT_ARR_SIZE));
 		textField.setHorizontalAlignment(JTextField.CENTER);	
 		textField.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
-		sizePanel.add(textField);
+		
+		GridBagConstraints gbc_text = new GridBagConstraints();
+		
+		sizePanel.add(textField, gbc_text);
 		
 		JLabel colorLabel = new JLabel("Choose array color:", SwingConstants.LEFT);
-		colorLabel.setBorder(new EmptyBorder(0, 5, 0, 5));
 		sizePanel.add(colorLabel);
 		
 		ButtonGroup colorGroup = new ButtonGroup();
