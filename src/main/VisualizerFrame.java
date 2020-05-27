@@ -12,7 +12,6 @@ import javax.swing.text.Document;
 import javax.swing.border.EmptyBorder;
 
 
-
 public class VisualizerFrame {
 
 	public static void main(String[] args) {
