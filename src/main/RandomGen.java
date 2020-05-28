@@ -2,26 +2,42 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Collections;
 
 public class RandomGen {
 	
 	private static ArrayList<Integer> array = new ArrayList<>();
 
+	public RandomGen(int n) {
+		Generator(n);
+	}
+
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		ArrayList<Integer> arr = RandomArray(7);
+		RandomGen arr = new RandomGen(5);
+		
 		for (int i = 0; i<arr.size(); i++) {
 			System.out.println(arr.get(i));
 		}
+//		System.out.println(Collections.max(arr));
+		
 	}
 	
-	public static ArrayList<Integer> RandomArray(int n) {
+	private Integer get(int i) {
+		// TODO Auto-generated method stub
+		return array.get(i);
+	}
+
+	private int size() {
+		// TODO Auto-generated method stub
+		return array.size();
+	}
+
+	public static ArrayList<Integer> Generator(int n) {
 		array = new ArrayList<>(n);
 		
 		Random rand = new Random();
-		rand.setSeed(System.currentTimeMillis());
 		for (int i=0; i<n; i++) {
-			Integer num = rand.nextInt(n);
+			Integer num = rand.nextInt((n-1) + 1) + 1;
 			array.add(num);
 		}
 		return array;
