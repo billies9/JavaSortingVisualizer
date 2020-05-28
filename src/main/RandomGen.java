@@ -18,18 +18,18 @@ public class RandomGen {
 		for (int i = 0; i<arr.size(); i++) {
 			System.out.println(arr.get(i));
 		}
-//		System.out.println(Collections.max(arr));
-		
 	}
 	
-	private Integer get(int i) {
-		// TODO Auto-generated method stub
+	public Integer get(int i) {
 		return array.get(i);
 	}
 
-	private int size() {
-		// TODO Auto-generated method stub
+	public int size() {
 		return array.size();
+	}
+	
+	public int max() {
+		return Collections.max(array);
 	}
 
 	public static ArrayList<Integer> Generator(int n) {
