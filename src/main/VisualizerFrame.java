@@ -196,8 +196,8 @@ class SortingFrame extends JFrame {
 			double barWidth = (double) getWidth() / array.size();
 			
 			// Compute scale factor
-			double scale = getHeight() / maxY;
-			
+			double scale = (double) getHeight() / maxY;
+			System.out.println(scale);
 			// Draw the bars
 			for (int i = 0; i < array.size(); i++) {
 				// Get coordinates of the bar
