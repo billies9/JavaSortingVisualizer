@@ -95,9 +95,10 @@ class SortingFrame extends JFrame {
 		sizePanel.add(colorLabel);
 		
 		ButtonGroup colorGroup = new ButtonGroup();
-		String[] colors = {"Red", "Blue", "Black"};
+		String[] colors = {"Black", "Blue", "Red"};
 		for (int i = 0; i < colors.length; i++) {
-			JRadioButton btn = new JRadioButton(colors[i]);
+			JRadioButton btn = new JRadioButton(colors[i], true);
+			btn.addActionListener(new colorListener());
 			colorGroup.add(btn);
 			sizePanel.add(btn);
 		}
@@ -167,7 +168,9 @@ class SortingFrame extends JFrame {
 	}
 
 	
-	private class ChartComponent extends JComponent {
+	private static class ChartComponent extends JComponent {
+		
+		public static Color color;
 		
 		private int maxY;
 		private int minY = 1;
@@ -197,7 +200,7 @@ class SortingFrame extends JFrame {
 			
 			// Compute scale factor
 			double scale = (double) getHeight() / maxY;
-			System.out.println(scale);
+			
 			// Draw the bars
 			for (int i = 0; i < array.size(); i++) {
 				// Get coordinates of the bar
@@ -206,7 +209,7 @@ class SortingFrame extends JFrame {
 				double height = array.get(i) * scale;
 
 				Rectangle2D rect = new Rectangle2D.Double(x1, y1, barWidth-2, height);
-				g2d.setPaint(Color.RED);
+				g2d.setPaint(color);
 				g2d.fill(rect);
 				g2d.setPaint(Color.BLACK);
 				g2d.draw(rect);
@@ -226,6 +229,7 @@ class SortingFrame extends JFrame {
 	
 	// Sorting method listener
 	private class sortSelection implements ActionListener {
+		@Override
 		public void actionPerformed(ActionEvent event) {
 			VisualizeSorting.startSort(event.getActionCommand());
 		}
@@ -233,8 +237,35 @@ class SortingFrame extends JFrame {
 	
 	// Quit method listener
 	private class quitApplication implements ActionListener {
+		@Override
 		public void actionPerformed(ActionEvent event) {
 			System.exit(0);
 		}
 	}
+	
+	private class colorListener implements ActionListener {
+		public Color color;
+		
+		@Override
+		public void actionPerformed(ActionEvent event) {
+			JRadioButton btn = (JRadioButton) event.getSource();
+			switch (btn.getText()) {
+			case "Red":
+				color = Color.RED;
+				break;
+			case "Blue":
+				color = Color.BLUE;
+				break;
+			case "Black":
+				color = Color.BLACK;
+				break;
+			default:
+				color = Color.RED;
+				break;
+			}
+			ChartComponent.color = color;
+			repaint();
+		}
+	}
+
 }
