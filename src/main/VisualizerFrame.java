@@ -2,8 +2,7 @@ package main;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-
+import java.awt.geom.Rectangle2D;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.text.Document;
@@ -33,8 +32,6 @@ class SortingFrame extends JFrame {
 	
 	private JSlider slider;
 	private JTextField textField;
-	
-	private ChartComponent chart;
 
 	public SortingFrame() {	
 		
@@ -170,19 +167,20 @@ class SortingFrame extends JFrame {
 	}
 
 	
-	class ChartComponent extends JComponent {
+	private class ChartComponent extends JComponent {
 		
 		private int maxY;
 		private int minY = 1;
-		private int[] labelsY;
-		private int maxX;
 		private int minX = 1;
-		private int[] labelsX;
-		private ArrayList<Integer> array = new ArrayList<>();
 		private int n;
+		
+		private RandomGen array;
 		
 		public void setSize(int n) {
 			this.n = n;
+			
+			RandomGen array = new RandomGen(n);
+			this.array = array;
 			repaint();
 		}
 		
@@ -191,8 +189,28 @@ class SortingFrame extends JFrame {
 			super.paintComponent(g);
 			Graphics2D g2d = (Graphics2D) g;
 			
-			g2d.setColor(Color.RED);
-			g2d.drawLine(50 + n, n, 50, 50);
+			// Compute maximum axis values 
+			maxY = array.max();
+				
+			// Compute individual barWidths
+			int barWidth = getWidth() / array.size();
+			
+			// Compute scale factor
+			double scale = getHeight() / maxY;
+			
+			// Draw the bars
+			for (int i = 0; i < array.size(); i++) {
+				// Get coordinates of the bar
+				double x1 = i * barWidth + 1;
+				double y1 = 0;
+				double height = array.get(i) * scale;
+				
+				Rectangle2D rect = new Rectangle2D.Double(x1, y1, barWidth-2, height);
+				g2d.setPaint(Color.RED);
+				g2d.fill(rect);
+				g2d.setPaint(Color.BLACK);
+				g2d.draw(rect);
+			}
 		}
 	}
 	
