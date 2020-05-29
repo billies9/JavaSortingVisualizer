@@ -193,7 +193,7 @@ class SortingFrame extends JFrame {
 			maxY = array.max();
 				
 			// Compute individual barWidths
-			int barWidth = getWidth() / array.size();
+			double barWidth = (double) getWidth() / array.size();
 			
 			// Compute scale factor
 			double scale = getHeight() / maxY;
@@ -204,7 +204,7 @@ class SortingFrame extends JFrame {
 				double x1 = i * barWidth + 1;
 				double y1 = 0;
 				double height = array.get(i) * scale;
-				
+
 				Rectangle2D rect = new Rectangle2D.Double(x1, y1, barWidth-2, height);
 				g2d.setPaint(Color.RED);
 				g2d.fill(rect);
