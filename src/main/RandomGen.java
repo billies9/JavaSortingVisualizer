@@ -31,6 +31,10 @@ public class RandomGen {
 	public int max() {
 		return Collections.max(array);
 	}
+	
+	public int min() {
+		return Collections.min(array);
+	}
 
 	public static ArrayList<Integer> Generator(int n) {
 		array = new ArrayList<>(n);
