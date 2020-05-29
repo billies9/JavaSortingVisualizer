@@ -26,8 +26,8 @@ class SortingFrame extends JFrame {
 	private final static int DEFAULT_HEIGHT = 600;
 	
 	private final int DEFAULT_ARR_SIZE = 50;
-	private final int MIN_ARR_SIZE = 0;
-	private final int MAX_ARR_SIZE = 200;
+	private final int MIN_ARR_SIZE = 5;
+	private final int MAX_ARR_SIZE = 205;
 	private static final int NUM_SORT_TYPES = 3;
 	
 	private JSlider slider;
