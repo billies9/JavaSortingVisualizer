@@ -1,12 +1,10 @@
 package main;
 
 import java.awt.*;
-import java.awt.Insets;
-import java.awt.Font;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 import javax.swing.*;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
 import javax.swing.event.*;
 import javax.swing.text.Document;
 import javax.swing.border.EmptyBorder;
@@ -35,6 +33,8 @@ class SortingFrame extends JFrame {
 	
 	private JSlider slider;
 	private JTextField textField;
+	
+	private ChartComponent chart;
 
 	public SortingFrame() {	
 		
@@ -114,7 +114,7 @@ class SortingFrame extends JFrame {
 		outerPane.add(configPanel, gbc_config);
 		
 		// Array panel - Holds sorting graph
-		JPanel arrayPanel = new JPanel();
+		JPanel arrayPanel = new JPanel(new BorderLayout());
 		arrayPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		GridBagConstraints gbc_array = new GridBagConstraints();
@@ -123,8 +123,9 @@ class SortingFrame extends JFrame {
 		gbc_array.gridheight = 2;
 		gbc_array.insets = new Insets(10, 10, 10, 10);
 		
-		GraphView g = new GraphView();
-		arrayPanel.add(g);
+		ChartComponent chart = new ChartComponent();
+		chart.setSize(DEFAULT_ARR_SIZE);
+		arrayPanel.add(chart);
 		outerPane.add(arrayPanel, gbc_array);
 		
 		// Slider panel - Defines array size to sort; Value displayed in Configuration panel
@@ -139,12 +140,15 @@ class SortingFrame extends JFrame {
 		    	  JSlider source = (JSlider) event.getSource();
 		    	  if (source.getValueIsAdjusting()) {
 		    		  textField.setText(String.valueOf(source.getValue()));
+		    		  // Set new array size
+		    		  chart.setSize(source.getValue());
 		    	  }
 		      	}
 		    });
 		sliderPanel.add(slider);
 		// Add listener for change in field/slider to occur
 		Document docField = textField.getDocument();
+		// On change, call repaint method - Inside of TextListener.updatSlider method
 		docField.addDocumentListener(new TextListener(slider));
 		
 		GridBagConstraints gbcSlider = new GridBagConstraints();
@@ -163,6 +167,33 @@ class SortingFrame extends JFrame {
 		gbc_quit.gridy = 2;
 		
 		outerPane.add(quitPanel, gbc_quit);
+	}
+
+	
+	class ChartComponent extends JComponent {
+		
+		private int maxY;
+		private int minY = 1;
+		private int[] labelsY;
+		private int maxX;
+		private int minX = 1;
+		private int[] labelsX;
+		private ArrayList<Integer> array = new ArrayList<>();
+		private int n;
+		
+		public void setSize(int n) {
+			this.n = n;
+			repaint();
+		}
+		
+		@Override
+		public void paintComponent(Graphics g) {	
+			super.paintComponent(g);
+			Graphics2D g2d = (Graphics2D) g;
+			
+			g2d.setColor(Color.RED);
+			g2d.drawLine(50 + n, n, 50, 50);
+		}
 	}
 	
 	// Button creation method
