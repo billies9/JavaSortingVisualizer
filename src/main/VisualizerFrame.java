@@ -11,8 +11,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 
-import javax.swing.border.EmptyBorder;
-
 
 public class VisualizerFrame {
 
@@ -178,15 +176,10 @@ class SortingFrame extends JFrame {
 		public static Color color;
 		
 		private int maxY;
-		private int minY = 1;
-		private int minX = 1;
-		private int n;
 		
 		private RandomGen array;
 		
-		public void setSize(int n) {
-			this.n = n;
-			
+		public void setSize(int n) {			
 			RandomGen array = new RandomGen(n);
 			this.array = array;
 			repaint();
@@ -240,13 +233,9 @@ class SortingFrame extends JFrame {
 		@Override
 		public void changedUpdate(DocumentEvent event) {}
 		
-		public void updateSlider(DocumentEvent event) {
-			Document doc = (Document) event.getDocument();
-			int len = doc.getLength();
-	
+		public void updateSlider(DocumentEvent event) {	
 			AbstractDocument docAbs = (AbstractDocument) event.getDocument();
 		    docAbs.setDocumentFilter(new BoundsFilter());
-	
 		}
 		
 		private class BoundsFilter extends DocumentFilter {	
