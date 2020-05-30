@@ -2,6 +2,7 @@ package main;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -189,6 +190,13 @@ class SortingFrame extends JFrame {
 		public void paintComponent(Graphics g) {	
 			super.paintComponent(g);
 			Graphics2D g2d = (Graphics2D) g;
+			
+			// Flip y-axis in JPanel
+			Insets insets = getInsets();
+			int h = getHeight() - insets.top - insets.bottom;
+			// Scale and translate axis
+			g2d.scale(1.0, -1.0);
+			g2d.translate(0, -h-insets.top);
 			
 			// Compute maximum axis values 
 			maxY = array.max();
