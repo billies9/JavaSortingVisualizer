@@ -172,7 +172,7 @@ class SortingFrame extends JFrame {
 		outerPane.add(quitPanel, gbc_quit);
 	}
 
-	
+	// Create random bar array 
 	static class ChartComponent extends JComponent {
 		
 		public static Color color;
@@ -222,7 +222,7 @@ class SortingFrame extends JFrame {
 		}
 	}
 	
-
+	// Field input listener
 	static class TextListener implements DocumentListener {
 		
 		public TextListener() {}
