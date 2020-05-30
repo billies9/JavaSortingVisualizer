@@ -5,7 +5,12 @@ import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import javax.swing.*;
 import javax.swing.event.*;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
+import javax.swing.text.DocumentFilter;
+
 import javax.swing.border.EmptyBorder;
 
 
@@ -25,12 +30,12 @@ class SortingFrame extends JFrame {
 	private final static int DEFAULT_WIDTH = 800;
 	private final static int DEFAULT_HEIGHT = 600;
 	
-	private final int DEFAULT_ARR_SIZE = 50;
-	private final int MIN_ARR_SIZE = 5;
-	private final int MAX_ARR_SIZE = 205;
+	private final int DEFAULT_ARR_SIZE = 55;
+	private final static int MIN_ARR_SIZE = 5;
+	private final static int MAX_ARR_SIZE = 205;
 	private static final int NUM_SORT_TYPES = 3;
 	
-	private JSlider slider;
+	private static JSlider slider;
 	private JTextField textField;
 
 	public SortingFrame() {	
@@ -138,16 +143,16 @@ class SortingFrame extends JFrame {
 		    	  JSlider source = (JSlider) event.getSource();
 		    	  if (source.getValueIsAdjusting()) {
 		    		  textField.setText(String.valueOf(source.getValue()));
-		    		  // Set new array size
-		    		  chart.setSize(source.getValue());
 		    	  }
+		    	  // Set new array size - Event still fires
+	    		  chart.setSize(source.getValue());
 		      	}
 		    });
 		sliderPanel.add(slider);
 		// Add listener for change in field/slider to occur
 		Document docField = textField.getDocument();
 		// On change, call repaint method - Inside of TextListener.updatSlider method
-		docField.addDocumentListener(new TextListener(slider));
+		docField.addDocumentListener(new TextListener());
 		
 		GridBagConstraints gbcSlider = new GridBagConstraints();
 		gbcSlider.fill = GridBagConstraints.BOTH;
@@ -168,7 +173,7 @@ class SortingFrame extends JFrame {
 	}
 
 	
-	private static class ChartComponent extends JComponent {
+	static class ChartComponent extends JComponent {
 		
 		public static Color color;
 		
@@ -217,6 +222,96 @@ class SortingFrame extends JFrame {
 		}
 	}
 	
+
+	static class TextListener implements DocumentListener {
+		
+		public TextListener() {}
+		
+		@Override
+		public void insertUpdate(DocumentEvent event) {
+			updateSlider(event);
+		}
+	
+		@Override
+		public void removeUpdate(DocumentEvent event) {
+			updateSlider(event);	
+		}
+	
+		@Override
+		public void changedUpdate(DocumentEvent event) {}
+		
+		public void updateSlider(DocumentEvent event) {
+			Document doc = (Document) event.getDocument();
+			int len = doc.getLength();
+	
+			AbstractDocument docAbs = (AbstractDocument) event.getDocument();
+		    docAbs.setDocumentFilter(new BoundsFilter());
+	
+		}
+		
+		private class BoundsFilter extends DocumentFilter {	
+			@Override
+			public void replace(DocumentFilter.FilterBypass fb, int offset, int length, String arrInput, AttributeSet attr) 
+					throws BadLocationException {
+				// Fires upon slider movement & numpad keystroke
+				if (!(slider.getValueIsAdjusting())) {
+					Document doc = fb.getDocument();
+					StringBuilder sb = new StringBuilder();
+			        sb.append(doc.getText(0, doc.getLength()));
+			        sb.insert(offset, arrInput);
+			        
+			        try {
+						int value = Integer.parseInt(sb.toString());
+						
+						if (value < MIN_ARR_SIZE) {
+							value = MIN_ARR_SIZE;
+							new ErrorPane(value);
+							arrInput = String.valueOf(value);
+							this.remove(fb, 0, doc.getLength());
+						}
+						else if (value > MAX_ARR_SIZE) {
+							value = MAX_ARR_SIZE;
+							new ErrorPane(value);
+							arrInput = String.valueOf(value);
+							this.remove(fb, 0, doc.getLength());
+						}
+						slider.setValue(value);
+					}
+					catch (NumberFormatException e) {
+					}
+				}
+				super.replace(fb, offset, length, arrInput, attr);
+			}
+			
+			@Override
+			public void insertString(DocumentFilter.FilterBypass fb, int offset, String arrInput, AttributeSet attr) 
+					throws BadLocationException {
+				super.insertString(fb, offset, arrInput, attr);
+			}
+			
+			@Override
+			public void remove(DocumentFilter.FilterBypass fb, int offset, int length) 
+					throws BadLocationException {
+				// Backspace keystroke
+				super.remove(fb, offset, length);
+			}
+			
+			// Create bound alert
+			private class ErrorPane {
+				public ErrorPane(int bound) {
+					String msg = "Input outside array bound: ";
+					StringBuilder sb = new StringBuilder(msg);
+					sb.append(String.valueOf(bound));
+					
+					JOptionPane.showMessageDialog(null,
+							sb.toString(), 
+							"Alert", 
+							JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		}
+	}
+
 	// Button creation method
 	private void addButton (String label,
 							JPanel panel,
@@ -243,6 +338,7 @@ class SortingFrame extends JFrame {
 		}
 	}
 	
+	// Bar color change listener
 	private class colorListener implements ActionListener {
 		public Color color;
 		
