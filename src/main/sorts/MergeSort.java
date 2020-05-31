@@ -1,20 +1,21 @@
 package main.sorts;
 
 import main.*;
+import java.util.ArrayList;
 
 public class MergeSort implements Runnable {
 	
 	public void run() {
-		Integer[] toSort = VisualizeSorting.toSort;
+		ArrayList<Integer> toSort = VisualizeSorting.toSort;
 		sort(toSort);
 		VisualizeSorting.isSorting = false;
 	}
 	
-	public void sort(Integer[] x) {
-		sort(x, 0, x.length-1);
+	public void sort(ArrayList<Integer> x) {
+		sort(x, 0, x.size()-1);
 	}
 	
-	private void sort(Integer[] x, int first, int last) {
+	private void sort(ArrayList<Integer> x, int first, int last) {
 		int mid, right, left;
 		int temp;
 		
@@ -33,13 +34,13 @@ public class MergeSort implements Runnable {
 		left = first;
 		right = mid+1;
 		// Skip merge sorting, if possible
-		if (x[mid] <= x[right])
+		if (x.get(mid) <= x.get(right))
 			return;
 		
 		// Bitwise AND operator - first condition must be satisfied to reach second
 		while (left <= mid && right <= last) {
 			// Advance - order is correct
-			if (x[left] <= x[right]) {
+			if (x.get(left) <= x.get(right)) {
 				left++;
 			}
 			/*
@@ -47,12 +48,12 @@ public class MergeSort implements Runnable {
 			 * Also, move every element left 1 by iterating backwards (j--)
 			 */
 			else {
-				temp = x[right];
+				temp = x.get(right);
 				
 				for (int j = right - left; j > 0; j--) {
-					x[left + j] = x[left + j - 1];
+					x.set(left + j, x.get(left + j -1));
 				}
-				x[left] = temp;
+				x.set(left, temp);
 				
 				// Move counters to reflect new positions
 				left++;

@@ -1,15 +1,16 @@
 package main.sorts;
 
 import main.*;
+import java.util.ArrayList;
 
 public class BubbleSort implements Runnable {
 
 	// Initialize sorting array
-	private Integer[] toSort;
+	private ArrayList<Integer> toSort;
 	// Initialize frame to view sorting method
 	// private VisualizerFrame frame;	
 	
-	public BubbleSort(Integer[] toSort) {
+	public BubbleSort(ArrayList<Integer> toSort) {
 		// Assign to-be-sorted array to scope of class
 		this.toSort = toSort;
 		// Assign frame to scope of class - Drawing & painting 
@@ -28,14 +29,14 @@ public class BubbleSort implements Runnable {
 		int temp = 0;
 		// Initialize boolean flag
 		boolean swapped = false;
-		for (int i = 0; i < toSort.length-1; i++) {
+		for (int i = 0; i < toSort.size() - 1; i++) {
 			swapped = false;
-			for (int j = 1; j < toSort.length-i; j++) {
-				if (toSort[j-1] > toSort[j]) {
+			for (int j = 1; j < toSort.size() - i; j++) {
+				if (toSort.get(j-1) > toSort.get(j)) {
 					// If swap opportunity found, reassign array elements
-					temp = toSort[j-1];
-					toSort[j-1] = toSort[j];
-					toSort[j] = temp;
+					temp = toSort.get(j-1);
+					toSort.set(j-1, toSort.get(j));
+					toSort.set(j, temp);
 					// Set boolean flag upon swap found
 					swapped = true;
 				}
