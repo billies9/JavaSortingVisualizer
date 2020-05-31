@@ -2,8 +2,9 @@ package main;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Collections;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.text.AbstractDocument;
@@ -34,8 +35,8 @@ class SortingFrame extends JFrame {
 	private final static int MAX_ARR_SIZE = 205;
 	private static final int NUM_SORT_TYPES = 3;
 	
-	private static JSlider slider;
-	private JTextField textField;
+	public static JSlider slider;
+	public JTextField textField;
 
 	public SortingFrame() {	
 		
@@ -178,11 +179,11 @@ class SortingFrame extends JFrame {
 		
 		private int maxY;
 		
-		private RandomGen array;
+		private ArrayList<Integer> array;
 		
 		public void setSize(int n) {			
-			RandomGen array = new RandomGen(n);
-			this.array = array;
+			VisualizeSorting.resetArray(n);
+			this.array = VisualizeSorting.toSort;
 			repaint();
 		}
 		
@@ -199,7 +200,7 @@ class SortingFrame extends JFrame {
 			g2d.translate(0, -h-insets.top);
 			
 			// Compute maximum axis values 
-			maxY = array.max();
+			maxY = Collections.max(array);
 				
 			// Compute individual barWidths
 			double barWidth = (double) getWidth() / array.size();
