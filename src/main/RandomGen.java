@@ -21,14 +21,6 @@ public class RandomGen {
 			System.out.println(array.get(i));
 		}
 	}
-	
-	public int max() {
-		return Collections.max(array);
-	}
-	
-	public int min() {
-		return Collections.min(array);
-	}
 
 	public ArrayList<Integer> Generator() {
 		array = new ArrayList<>(n);
