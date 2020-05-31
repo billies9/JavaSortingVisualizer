@@ -7,25 +7,19 @@ import java.util.Collections;
 public class RandomGen {
 	
 	private static ArrayList<Integer> array = new ArrayList<>();
-
+	private int n;
+	
 	public RandomGen(int n) {
-		Generator(n);
+		this.n = n;
 	}
 
 	public static void main(String[] args) {
-		RandomGen arr = new RandomGen(5);
+		RandomGen gen = new RandomGen(5);
+		array = gen.Generator();
 		
-		for (int i = 0; i<arr.size(); i++) {
-			System.out.println(arr.get(i));
+		for (int i = 0; i < array.size(); i++) {
+			System.out.println(array.get(i));
 		}
-	}
-	
-	public Integer get(int i) {
-		return array.get(i);
-	}
-
-	public int size() {
-		return array.size();
 	}
 	
 	public int max() {
@@ -36,7 +30,7 @@ public class RandomGen {
 		return Collections.min(array);
 	}
 
-	public static ArrayList<Integer> Generator(int n) {
+	public ArrayList<Integer> Generator() {
 		array = new ArrayList<>(n);
 		
 		Random rand = new Random();
