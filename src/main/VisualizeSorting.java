@@ -1,8 +1,12 @@
 package main;
 
 import main.sorts.*;
+
+import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import javax.swing.JFrame;
 
 public class VisualizeSorting {
 
@@ -14,13 +18,15 @@ public class VisualizeSorting {
 	
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		VisualizerFrame frame = new VisualizerFrame();
-//		resetArray();
-
+		EventQueue.invokeLater(() -> {
+			SortingFrame frame = new SortingFrame();
+			frame.setTitle("Sorting Visualizer");
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setVisible(true);
+		});
 	}
 	
-	public static void resetArray(int n) {
+	public static void setArray(int n) {
 		// Check to see if sorting
 //		isSorting = true;
 		if (isSorting) {
@@ -29,15 +35,13 @@ public class VisualizeSorting {
 			return;
 		}
 		RandomGen gen = new RandomGen(n);
-		toSort = gen.Generator();
-		// 
+		toSort = gen.Generator(); 
 	}
 	
 	public static void startSort(String type) {
 		
 		if (thread == null && !isSorting) {
 			isSorting = true;
-//			toSort = new Integer[] {3, 4, 2, 1};
 			
 			switch(type) {
 			case "Bubble":
