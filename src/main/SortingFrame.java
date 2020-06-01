@@ -14,7 +14,7 @@ import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 
 
-class SortingFrame extends JFrame {
+public class SortingFrame extends JFrame {
 	private final static int DEFAULT_WIDTH = 800;
 	private final static int DEFAULT_HEIGHT = 600;
 	
@@ -115,7 +115,7 @@ class SortingFrame extends JFrame {
 		gbc_array.insets = new Insets(10, 10, 10, 10);
 		
 		ChartComponent chart = new ChartComponent();
-		chart.setSize(DEFAULT_ARR_SIZE);
+		chart.setArray(DEFAULT_ARR_SIZE);
 		arrayPanel.add(chart);
 		outerPane.add(arrayPanel, gbc_array);
 		
@@ -133,7 +133,7 @@ class SortingFrame extends JFrame {
 		    		  textField.setText(String.valueOf(source.getValue()));
 		    	  }
 		    	  // Set new array size - Event still fires
-	    		  chart.setSize(source.getValue());
+	    		  chart.setArray(source.getValue());
 		      	}
 		    });
 		sliderPanel.add(slider);
@@ -169,8 +169,13 @@ class SortingFrame extends JFrame {
 		
 		private ArrayList<Integer> array;
 		
-		public void setSize(int n) {			
+		public void setArray(int n) {			
 			VisualizeSorting.setArray(n);
+			this.array = VisualizeSorting.toSort;
+			repaint();
+		}
+		
+		public void drawArray() {
 			this.array = VisualizeSorting.toSort;
 			repaint();
 		}
