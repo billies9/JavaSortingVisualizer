@@ -14,18 +14,6 @@ import javax.swing.text.Document;
 import javax.swing.text.DocumentFilter;
 
 
-public class VisualizerFrame {
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(() -> {
-			SortingFrame frame = new SortingFrame();
-			frame.setTitle("Sorting Visualizer");
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.setVisible(true);
-		});
-	}
-}
-
 class SortingFrame extends JFrame {
 	private final static int DEFAULT_WIDTH = 800;
 	private final static int DEFAULT_HEIGHT = 600;
@@ -182,7 +170,7 @@ class SortingFrame extends JFrame {
 		private ArrayList<Integer> array;
 		
 		public void setSize(int n) {			
-			VisualizeSorting.resetArray(n);
+			VisualizeSorting.setArray(n);
 			this.array = VisualizeSorting.toSort;
 			repaint();
 		}
