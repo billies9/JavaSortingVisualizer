@@ -68,6 +68,13 @@ public class MergeSort implements Runnable {
 				mid++;
 			}
 			frame.repaint();
+			try {
+				// Puts thread into wait state for specified period
+				Thread.sleep(VisualizeSorting.sleep);
+			} catch (InterruptedException e) {
+				// Checked exception - informs user of exception and retry
+				e.printStackTrace();
+			}
 		}
 	}
 }
