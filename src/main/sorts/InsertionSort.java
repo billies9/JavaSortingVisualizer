@@ -1,8 +1,8 @@
 package main.sorts;
 
+import main.*;
 import java.util.ArrayList;
 
-import main.VisualizeSorting;
 
 public class InsertionSort implements Runnable {
 	/*
@@ -12,9 +12,11 @@ public class InsertionSort implements Runnable {
 	 */
 	
 	private ArrayList<Integer> toSort;
+	private SortingFrame frame;
 	
-	public InsertionSort(ArrayList<Integer> toSort2) {
-		this.toSort = toSort2;
+	public InsertionSort(SortingFrame frame, ArrayList<Integer> toSort) {
+		this.toSort = toSort;
+		this.frame = frame;
 	}
 	
 	public void run() {
@@ -41,6 +43,7 @@ public class InsertionSort implements Runnable {
 			}
 			// Move previously unsorted value to left - now 'sorted' up to iteration
 			toSort.set(j + 1,  k);
+			frame.repaint();
 			try {
 				Thread.sleep(VisualizeSorting.sleep);
 			}

@@ -43,7 +43,7 @@ public class VisualizeSorting {
 				thread = new Thread(new MergeSort());
 				break;
 			case "Insertion":
-				thread = new Thread(new InsertionSort(toSort));
+				thread = new Thread(new InsertionSort(frame, toSort));
 				break;
 			default:
 				isSorting = false;
