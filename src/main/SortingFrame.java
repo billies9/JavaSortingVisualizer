@@ -177,12 +177,6 @@ public class SortingFrame extends JFrame {
 			repaint();
 		}
 		
-		public void drawArray() {
-			this.array = VisualizeSorting.toSort;
-			System.out.println(Arrays.toString(array.toArray()));
-			repaint();
-		}
-		
 		@Override
 		public void paintComponent(Graphics g) {	
 			super.paintComponent(g);
