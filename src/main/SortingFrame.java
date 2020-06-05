@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -25,6 +26,7 @@ public class SortingFrame extends JFrame {
 	
 	public static JSlider slider;
 	public JTextField textField;
+	public ChartComponent chart;
 
 	public SortingFrame() {	
 		
@@ -159,9 +161,9 @@ public class SortingFrame extends JFrame {
 		
 		outerPane.add(quitPanel, gbc_quit);
 	}
-
+	
 	// Create random bar array 
-	static class ChartComponent extends JComponent {
+	public static class ChartComponent extends JComponent {
 		
 		public static Color color;
 		
@@ -177,6 +179,7 @@ public class SortingFrame extends JFrame {
 		
 		public void drawArray() {
 			this.array = VisualizeSorting.toSort;
+			System.out.println(Arrays.toString(array.toArray()));
 			repaint();
 		}
 		

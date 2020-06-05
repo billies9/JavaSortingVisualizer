@@ -8,18 +8,18 @@ public class BubbleSort implements Runnable {
 	// Initialize sorting array
 	private ArrayList<Integer> toSort;
 	// Initialize frame to view sorting method
-	// private VisualizerFrame frame;	
+	private SortingFrame frame;
 	
-	public BubbleSort(ArrayList<Integer> toSort) {
+	public BubbleSort(SortingFrame frame, ArrayList<Integer> toSort) {
 		// Assign to-be-sorted array to scope of class
 		this.toSort = toSort;
 		// Assign frame to scope of class - Drawing & painting 
-//		this.frame = frame;
+		this.frame = frame;
 	}
 	
 	public void run() {
 		// Call BubbleSort.sort()
-		this.sort();
+		sort();
 		// Reset boolean to 'clean-up' sorting process
 		VisualizeSorting.isSorting = false;	
 	}
@@ -41,7 +41,7 @@ public class BubbleSort implements Runnable {
 					swapped = true;
 				}
 			}
-		
+			frame.repaint();
 			try {
 				// Puts thread into wait state for specified period
 				Thread.sleep(VisualizeSorting.sleep);
