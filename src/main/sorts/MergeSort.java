@@ -5,8 +5,15 @@ import java.util.ArrayList;
 
 public class MergeSort implements Runnable {
 	
+	private ArrayList<Integer> toSort;
+	private SortingFrame frame;
+	
+	public MergeSort(SortingFrame frame, ArrayList<Integer> toSort) {
+		this.toSort = toSort;
+		this.frame = frame;
+	}
+	
 	public void run() {
-		ArrayList<Integer> toSort = VisualizeSorting.toSort;
 		sort(toSort);
 		VisualizeSorting.isSorting = false;
 	}
@@ -60,6 +67,7 @@ public class MergeSort implements Runnable {
 				right++;
 				mid++;
 			}
+			frame.repaint();
 		}
 	}
 }

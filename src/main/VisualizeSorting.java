@@ -40,7 +40,7 @@ public class VisualizeSorting {
 				thread = new Thread(new BubbleSort(frame, toSort));
 				break;
 			case "Merge":
-				thread = new Thread(new MergeSort());
+				thread = new Thread(new MergeSort(frame, toSort));
 				break;
 			case "Insertion":
 				thread = new Thread(new InsertionSort(frame, toSort));
