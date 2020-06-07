@@ -237,64 +237,65 @@ public class SortingFrame extends JFrame {
 		    docAbs.setDocumentFilter(new BoundsFilter());
 		}
 		
+		private boolean verifyRange(String text) {
+			if (text.isEmpty()) {
+				return false;
+			}
+			int value = 0;
+			try {
+				value = Integer.parseInt(text);
+//				System.out.println(value);
+				if (value >= MIN_ARR_SIZE && value <= MAX_ARR_SIZE ) {
+					return true;
+				}
+			}
+			catch (NumberFormatException e) {
+				return false;
+			}
+			return false;
+		}
+		
 		private class BoundsFilter extends DocumentFilter {	
 			@Override
 			public void replace(DocumentFilter.FilterBypass fb, int offset, int length, String arrInput, AttributeSet attr) 
 					throws BadLocationException {
-				// Fires upon slider movement & numpad keystroke
-				if (!(slider.getValueIsAdjusting())) {
-					Document doc = fb.getDocument();
-					StringBuilder sb = new StringBuilder();
-			        sb.append(doc.getText(0, doc.getLength()));
-			        sb.insert(offset, arrInput);
-			        
-			        try {
-						int value = Integer.parseInt(sb.toString());
-						
-						if (value < MIN_ARR_SIZE) {
-							value = MIN_ARR_SIZE;
-							new ErrorPane(value);
-							arrInput = String.valueOf(value);
-							this.remove(fb, 0, doc.getLength());
-						}
-						else if (value > MAX_ARR_SIZE) {
-							value = MAX_ARR_SIZE;
-							new ErrorPane(value);
-							arrInput = String.valueOf(value);
-							this.remove(fb, 0, doc.getLength());
-						}
-						slider.setValue(value);
-					}
-					catch (NumberFormatException e) {
-					}
+				// Invoked prior to replacing region of text
+				Document doc = fb.getDocument();
+				String text = doc.getText(0, doc.getLength());
+				StringBuilder sb = new StringBuilder(text);
+				
+				int end = offset + length;
+				sb.replace(offset, end, arrInput);	
+				
+				if (verifyRange(sb.toString())) {
+		        	super.replace(fb, offset, length, arrInput, attr);
+		        	slider.setValue(Integer.parseInt(sb.toString()));
 				}
-				super.replace(fb, offset, length, arrInput, attr);
 			}
 			
 			@Override
 			public void insertString(DocumentFilter.FilterBypass fb, int offset, String arrInput, AttributeSet attr) 
 					throws BadLocationException {
-				super.insertString(fb, offset, arrInput, attr);
+				// Invoked prior to insertion of text
+				
+				if (verifyRange(arrInput)) {
+				   super.insertString(fb, offset, arrInput, attr);
+				   slider.setValue(Integer.parseInt(arrInput));
+				}
 			}
 			
 			@Override
 			public void remove(DocumentFilter.FilterBypass fb, int offset, int length) 
 					throws BadLocationException {
 				// Backspace keystroke
-				super.remove(fb, offset, length);
-			}
-			
-			// Create bound alert
-			private class ErrorPane {
-				public ErrorPane(int bound) {
-					String msg = "Input outside array bound: ";
-					StringBuilder sb = new StringBuilder(msg);
-					sb.append(String.valueOf(bound));
-					
-					JOptionPane.showMessageDialog(null,
-							sb.toString(), 
-							"Alert", 
-							JOptionPane.ERROR_MESSAGE);
+				Document doc = fb.getDocument();
+				String oldText = doc.getText(0, doc.getLength());
+				StringBuilder sb = new StringBuilder(oldText);
+				
+				sb.replace(offset, offset + length, "");
+				if (verifyRange(sb.toString())) {
+				   super.remove(fb, offset, length);    
+				   slider.setValue(Integer.parseInt(sb.toString()));        
 				}
 			}
 		}
