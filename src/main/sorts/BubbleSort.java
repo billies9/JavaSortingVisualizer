@@ -5,27 +5,25 @@ import java.util.ArrayList;
 
 public class BubbleSort implements Runnable {
 
-	// Initialize sorting array
+	// Initialize class variables
 	private ArrayList<Integer> toSort;
-	// Initialize frame to view sorting method
 	private SortingFrame frame;
 	
 	public BubbleSort(SortingFrame frame, ArrayList<Integer> toSort) {
-		// Assign to-be-sorted array to scope of class
+		// Assign instance variables
 		this.toSort = toSort;
-		// Assign frame to scope of class - Drawing & painting 
 		this.frame = frame;
 	}
 	
 	public void run() {
-		// Call BubbleSort.sort()
+		// Start sort
 		sort();
-		// Reset boolean to 'clean-up' sorting process
+		// Reset sorting
 		VisualizeSorting.isSorting = false;	
 	}
 	
 	private void sort() {
-		// Initialize temp array element
+		// Initialize temp element
 		int temp = 0;
 		// Initialize boolean flag
 		boolean swapped = false;
@@ -43,10 +41,9 @@ public class BubbleSort implements Runnable {
 			}
 			frame.repaint();
 			try {
-				// Puts thread into wait state for specified period
+				// Thread enters wait state - graphing visualization
 				Thread.sleep(VisualizeSorting.sleep);
 			} catch (InterruptedException e) {
-				// Checked exception - informs user of exception and retry
 				e.printStackTrace();
 			}
 			// No swap opportunities found - break from outer loop

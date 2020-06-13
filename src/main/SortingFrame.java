@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -16,6 +15,7 @@ import javax.swing.text.DocumentFilter;
 
 
 public class SortingFrame extends JFrame {
+	// Initialize class variables
 	private final static int DEFAULT_WIDTH = 800;
 	private final static int DEFAULT_HEIGHT = 600;
 	
@@ -30,15 +30,18 @@ public class SortingFrame extends JFrame {
 
 	public SortingFrame() {	
 		
-		//	Set app size/resize-ablility
+		//	Set app size
 		setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+		// Disable resize
 		setResizable(false);
 		// Set location - managed by platform
 		setLocationByPlatform(true);
 		
-		// Define ActionListeners
-		ActionListener sortTypeListener = new sortSelection();
-		ActionListener quitListener = new quitApplication();
+		// Define Listeners
+		ActionListener sortTypeListener = new sortListener();
+		ActionListener quitListener = new quitListener();
+		ActionListener colorListener = new colorListener();
+		DocumentListener textListener = new TextListener();
 
 		// Create Panels
 		JPanel outerPane = new JPanel();
@@ -50,14 +53,14 @@ public class SortingFrame extends JFrame {
 		outerPane.setLayout(gbl_outer);
 		getContentPane().add(outerPane);
 		
-		// Configuration panel - Holds sort types and array size
+		// Configuration panel
 		JPanel configPanel = new JPanel();
 		GridBagLayout gbl_config = new GridBagLayout();
 		gbl_config.rowHeights = new int[] {2, 1};
 		gbl_config.rowWeights = new double[] {1.5, 0.5};
 		configPanel.setLayout(gbl_config);
 		
-		// Sort panel - Define sort type buttons
+		// Sort buttons panel
 		JPanel sortPanel = new JPanel(new GridLayout(NUM_SORT_TYPES, 1));
 		GridBagConstraints gbc_sort = new GridBagConstraints();
 		gbc_sort.fill = GridBagConstraints.BOTH;	
@@ -67,7 +70,7 @@ public class SortingFrame extends JFrame {
 		addButton("Insertion", sortPanel, sortTypeListener);
 		configPanel.add(sortPanel, gbc_sort);
 		
-		// Size panel - Define size of sorting array
+		// Array size & color panel
 		JPanel sizePanel = new JPanel(new GridLayout(6, 1));
 		GridBagConstraints gbc_size = new GridBagConstraints();
 		gbc_size.gridy = 1;
@@ -85,7 +88,7 @@ public class SortingFrame extends JFrame {
 		GridBagConstraints gbc_text = new GridBagConstraints();
 		
 		sizePanel.add(textField, gbc_text);
-		
+
 		JLabel colorLabel = new JLabel("Choose array color:", SwingConstants.LEFT);
 		sizePanel.add(colorLabel);
 		
@@ -93,20 +96,19 @@ public class SortingFrame extends JFrame {
 		String[] colors = {"Black", "Blue", "Red"};
 		for (int i = 0; i < colors.length; i++) {
 			JRadioButton btn = new JRadioButton(colors[i], true);
-			btn.addActionListener(new colorListener());
+			btn.addActionListener(colorListener);
 			colorGroup.add(btn);
 			sizePanel.add(btn);
 		}
-		
 		configPanel.add(sizePanel, gbc_size);
 		
-		// Add Configuration panel to outer-most panel
+		// Add Configuration panel to master panel
 		GridBagConstraints gbc_config = new GridBagConstraints();
 		gbc_config.fill = GridBagConstraints.BOTH;
 		gbc_config.gridheight = 2; 
 		outerPane.add(configPanel, gbc_config);
 		
-		// Array panel - Holds sorting graph
+		// Graph panel 
 		JPanel arrayPanel = new JPanel(new BorderLayout());
 		arrayPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		
@@ -121,7 +123,7 @@ public class SortingFrame extends JFrame {
 		arrayPanel.add(chart);
 		outerPane.add(arrayPanel, gbc_array);
 		
-		// Slider panel - Defines array size to sort; Value displayed in Configuration panel
+		// Slider panel
 		JPanel sliderPanel = new JPanel(new BorderLayout());
 		slider = new JSlider(MIN_ARR_SIZE, MAX_ARR_SIZE, DEFAULT_ARR_SIZE);
 		slider.setPaintTicks(true);
@@ -134,15 +136,14 @@ public class SortingFrame extends JFrame {
 		    	  if (source.getValueIsAdjusting()) {
 		    		  textField.setText(String.valueOf(source.getValue()));
 		    	  }
-		    	  // Set new array size - Event still fires
+		    	  // Set new array size - Event fires on slide & bound field change
 	    		  chart.setArray(source.getValue());
 		      	}
 		    });
 		sliderPanel.add(slider);
-		// Add listener for change in field/slider to occur
+		// Create document listener on input field
 		Document docField = textField.getDocument();
-		// On change, call repaint method - Inside of TextListener.updatSlider method
-		docField.addDocumentListener(new TextListener());
+		docField.addDocumentListener(textListener);
 		
 		GridBagConstraints gbcSlider = new GridBagConstraints();
 		gbcSlider.fill = GridBagConstraints.BOTH;
@@ -150,7 +151,7 @@ public class SortingFrame extends JFrame {
 		gbcSlider.gridy = 2; 
 		outerPane.add(sliderPanel, gbcSlider);
 		
-		// Quit panel
+		// Quit button
 		JPanel quitPanel = new JPanel(new GridLayout());
 		
 		addButton("Quit", quitPanel, quitListener);
@@ -166,8 +167,6 @@ public class SortingFrame extends JFrame {
 	public static class ChartComponent extends JComponent {
 		
 		public static Color color;
-		
-		private int maxY;
 		
 		private ArrayList<Integer> array;
 		
@@ -185,22 +184,20 @@ public class SortingFrame extends JFrame {
 			// Flip y-axis in JPanel
 			Insets insets = getInsets();
 			int h = getHeight() - insets.top - insets.bottom;
+			
 			// Scale and translate axis
 			g2d.scale(1.0, -1.0);
 			g2d.translate(0, -h-insets.top);
-			
-			// Compute maximum axis values 
-			maxY = Collections.max(array);
 				
 			// Compute individual barWidths
 			double barWidth = (double) getWidth() / array.size();
 			
-			// Compute scale factor
-			double scale = (double) getHeight() / maxY;
+			// Compute panel scale factor
+			double scale = (double) getHeight() / Collections.max(array);
 			
-			// Draw the bars
+			// Draw bars graph
 			for (int i = 0; i < array.size(); i++) {
-				// Get coordinates of the bar
+				// Coordinates of the bar
 				double x1 = i * barWidth + 1;
 				double y1 = 0;
 				double height = array.get(i) * scale;
@@ -243,8 +240,8 @@ public class SortingFrame extends JFrame {
 			}
 			int value = 0;
 			try {
+				// Check value between array bounds
 				value = Integer.parseInt(text);
-//				System.out.println(value);
 				if (value >= MIN_ARR_SIZE && value <= MAX_ARR_SIZE ) {
 					return true;
 				}
@@ -277,7 +274,6 @@ public class SortingFrame extends JFrame {
 			public void insertString(DocumentFilter.FilterBypass fb, int offset, String arrInput, AttributeSet attr) 
 					throws BadLocationException {
 				// Invoked prior to insertion of text
-				
 				if (verifyRange(arrInput)) {
 				   super.insertString(fb, offset, arrInput, attr);
 				   slider.setValue(Integer.parseInt(arrInput));
@@ -312,7 +308,7 @@ public class SortingFrame extends JFrame {
 	}
 	
 	// Sorting method listener
-	private class sortSelection implements ActionListener {
+	private class sortListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			VisualizeSorting.startSort(event.getActionCommand());
@@ -320,7 +316,7 @@ public class SortingFrame extends JFrame {
 	}
 	
 	// Quit method listener
-	private class quitApplication implements ActionListener {
+	private class quitListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			System.exit(0);
