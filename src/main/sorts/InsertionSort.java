@@ -31,7 +31,7 @@ public class InsertionSort implements Runnable {
 			int k = toSort.get(i);
 			// Assign break between unsorted / sorted arrays
 			int j = i - 1;
-			
+		
 			/* Start with comparison between 1st and 2nd element (j>=0)
 			 * jth element must be greater than first unsorted value
 			 */

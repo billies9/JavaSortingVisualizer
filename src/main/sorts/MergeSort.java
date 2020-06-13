@@ -61,7 +61,7 @@ public class MergeSort implements Runnable {
 					x.set(left + j, x.get(left + j -1));
 				}
 				x.set(left, temp);
-				
+			
 				// Move counters to reflect new positions
 				left++;
 				right++;
